@@ -1,7 +1,7 @@
 server:
   port: 8091
-
-data:
+spring:
+  data:
     mongodb:
       host: localhost
       port: 27017
@@ -9,4 +9,3 @@ data:
       username: root
       password: password
       authentication-database: admin
-
