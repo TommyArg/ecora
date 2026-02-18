@@ -19,5 +19,4 @@ public class CustomerController {
     public ResponseEntity<String> createCustomer(@RequestBody @Valid CustomerRequest request) {
         return ResponseEntity.ok(service.createCustomer(request));
     }
-
 }
