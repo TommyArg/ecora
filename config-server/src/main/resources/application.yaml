@@ -7,6 +7,6 @@
       config:
         server:
           native:
-            search-locations: classpath:/config/
+          search-locations: file:///S:/Tommy/proyectoIvana/config-server/src/main/resources/config/
   server:
     port: 8888
