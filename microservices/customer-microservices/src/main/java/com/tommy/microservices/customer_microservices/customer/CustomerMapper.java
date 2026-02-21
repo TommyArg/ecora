@@ -12,4 +12,14 @@ public class CustomerMapper {
                 .email(request.email())
                 .build();
     }
+
+ public CustomerResponse toCustomerResponse(Customer customer) {
+        return CustomerResponse.builder()
+                .dni(customer.getDni())
+                .nombre(customer.getNombre())
+                .apellido(customer.getApellido())
+                .email(customer.getEmail())
+                .build();
+ }
+
 }
