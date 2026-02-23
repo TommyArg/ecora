@@ -10,14 +10,16 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
-        <module name="customer-microservices" />
         <module name="config-server" />
         <module name="discovery-server" />
+        <module name="common-exceptions" />
+        <module name="customer-microservices" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="common-exceptions" options="-parameters" />
       <module name="config-server" options="-parameters" />
       <module name="customer-microservices" options="-parameters" />
       <module name="discovery-server" options="-parameters" />

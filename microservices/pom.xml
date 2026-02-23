@@ -16,6 +16,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>customer-microservices</module>
+        <module>common-exceptions</module>
     </modules>
     <properties>
         <java.version>25</java.version>
