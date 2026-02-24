@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
             var errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        log.warn("Errooor de validaciónnn, buuu: {}", exception);
+        log.warn("Errooor de validaciónnn, buuu: {}", exception.toString());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(errors));
     }
 
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
         var fieldName = "Mensaje";
         var errorMessage = "Error guau guau, contacta al admin";
         errors.put(fieldName, errorMessage);
-        log.error("Errooooor: {}", exception);
+        log.error("Errooooor: {}", exception.toString());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorResponse(errors));
     }
 
