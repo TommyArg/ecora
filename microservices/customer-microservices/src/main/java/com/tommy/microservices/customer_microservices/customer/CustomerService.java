@@ -1,6 +1,6 @@
 package com.tommy.microservices.customer_microservices.customer;
 
-import jakarta.validation.Valid;
+import com.tommy.microservices.customer_microservices.exceptions.CustomerNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,8 @@ public class CustomerService {
     public CustomerResponse getCustomerById(String customerId) {
         return repository.findById(customerId)
                 .map(mapper::toCustomerResponse)
-                .orElseThrow();
+                .orElseThrow(() ->new CustomerNotFoundException(
+                String.format("Error, snif snif cliente no encontrado por el DNI %s", customerId)));
     }
 
     public List<CustomerResponse> getCustomers() {
@@ -30,10 +31,11 @@ public class CustomerService {
                 .toList();
     }
 
-    public void deleteCustomerById(String customerDni) {
+    public void deleteCustomerById(String customerId) {
         repository
-                .findById(customerDni)
-                .orElseThrow();
-        repository.deleteById(customerDni);
+                .findById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException(
+                String.format("Error, snif snif cliente no encontrado por el DNI %s", customerId)));
+        repository.deleteById(customerId);
     }
 }
