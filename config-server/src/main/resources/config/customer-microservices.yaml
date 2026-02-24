@@ -3,3 +3,18 @@ server:
 spring:
   mongodb:
     uri: "mongodb://root:password@127.0.0.1:27017/customer_db?authSource=admin"
+
+
+logging:
+  level:
+    root: INFO
+    com.tommy.microservices: WARN
+  pattern:
+    console: '%d{yyyy-MM-dd HM:mm:ss} - %msg%n'
+    file: '%d{yyyy-MM-dd HM:mm:ss} - %msg%n'
+  file:
+    name: logs/customer-service.log
+    max-size: 10MB
+    max-history: 30
+
+
