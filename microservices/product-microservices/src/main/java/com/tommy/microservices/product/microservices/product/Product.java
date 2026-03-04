@@ -1,6 +1,5 @@
 package com.tommy.microservices.product.microservices.product;
 
-
 import com.tommy.microservices.product.microservices.category.Category;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +10,7 @@ import lombok.*;
 @Setter
 @Builder
 @Entity
-@Table(name = "productos")
+@Table(name = "products")
 public class Product {
     @Id
     @GeneratedValue

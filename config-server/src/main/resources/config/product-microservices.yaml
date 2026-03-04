@@ -2,11 +2,11 @@ server:
   port: 8092
 spring:
   datasource:
-    uri: jbdc:postgresql://localhost:5434/product_db
+    url: jdbc:postgresql://localhost:5432/product_db?timezone=UTC
     username: root
     password: pass
     driver-class-name: org.postgresql.Driver
-  jps:
+  jpa:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.PostgreSQLDialect
