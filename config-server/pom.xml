@@ -6,7 +6,7 @@
 		<groupId>com.tommy</groupId>
 		<artifactId>ecora</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-	<!-- lookup parent from repository -->
+		<relativePath>../pom.xml</relativePath><!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.tommy</groupId>
 	<artifactId>config-server</artifactId>
