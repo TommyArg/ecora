@@ -1,4 +1,4 @@
-  spring:
+spring:
     application:
       name: config-server
     profiles:
@@ -7,8 +7,8 @@
       config:
         server:
           native:
-          search-locations: file:///S:/Tommy/proyectoIvana/config-server/src/main/resources/config/
-  server:
+            search-locations: classpath:/config/
+server:
     port: 8888
 
 
