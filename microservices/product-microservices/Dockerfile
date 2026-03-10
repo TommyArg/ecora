@@ -4,7 +4,7 @@ WORKDIR /app
 
 RUN apk add --no-cache maven
 COPY . .
-RUN mvm clean package -DskipTests -pl microservices/product-microservices -am
+RUN mvn clean package -DskipTests -pl microservices/product-microservices -am
 
 # Run
 FROM eclipse-temurin:25-jre-alpine
@@ -12,4 +12,4 @@ RUN apk add --no-cache curl bash
 WORKDIR /app
 COPY --from=build /app/microservices/product-microservices/target/*.jar app.jar
 EXPOSE 8092
-ENTRYPOINT["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

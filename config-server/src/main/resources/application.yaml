@@ -10,3 +10,13 @@
           search-locations: file:///S:/Tommy/proyectoIvana/config-server/src/main/resources/config/
   server:
     port: 8888
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, beans, metrics, info, env
+  endpoint:
+    health:
+      show-details: always
