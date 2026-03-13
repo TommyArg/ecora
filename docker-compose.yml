@@ -5,19 +5,119 @@ services:
     image: mongo
     container_name: mongodb
     ports:
-      - "27017:27017"
+      - "${MONGO_DB_PORT}:27017"
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=${CUSTOMER_DB_NAME}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_DB_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_DB_PASSWORD}
     volumes:
       - mongo_data:/data/db
     networks:
       - microservices
     restart: always
 
+  Postgresql:
+    container_name: postgresql_db
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRESQL_DB_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRESQL_DB_PASSWORD}
+      - POSTGRES_DB=${PRODUCT_DB_NAME}
+      - PGDATA=/data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "${POSTGRESQL_DB_PORT}:5432"
+    networks:
+      - microservices
+
+  config-server:
+    build:
+      context: .
+      dockerfile: ./config-server/Dockerfile
+    container_name: config-server
+    ports:
+      - "${CONFIG_SERVER_PORT}:8888"
+    networks:
+      - microservices
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://config-server:${CONFIG_SERVER_PORT}/actuator/health" ]
+      interval: 20s
+      timeout: 3s
+      retries: 5
+    restart: on-failure
+
+  discovery-server:
+    build:
+      context: .
+      dockerfile: ./discovery-server/Dockerfile
+    container_name: discovery-server
+    depends_on:
+      config-server:
+        condition: service_healthy
+    ports:
+      - "${EUREKA_SERVER_PORT}:8761"
+    environment:
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:${CONFIG_SERVER_PORT}
+    networks:
+      - microservices
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://discovery-server:${EUREKA_SERVER_PORT}/actuator/health"]
+      interval: 20s
+      timeout: 3s
+      retries: 5
+    restart: on-failure
+
+
+  customer-microservices:
+    build:
+      context: .
+      dockerfile: ./microservices/customer-microservices/Dockerfile
+    container_name: customer-microservices
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-server:
+        condition: service_healthy
+      mongodb:
+        condition: service_started
+    ports:
+      - "${CUSTOMER_MICROSERVICES_PORT}:8091"
+    environment:
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:${CONFIG_SERVER_PORT}
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:${EUREKA_SERVER_PORT}/eureka/
+      - SPRING_MONGODB_URI=mongodb://${MONGO_DB_USERNAME}:${MONGO_DB_PASSWORD}@mongodb:${MONGO_DB_PORT}/${CUSTOMER_DB_NAME}?authSource=admin
+    networks:
+      - microservices
+
+  product-microservices:
+    build:
+      context: .
+      dockerfile: ./microservices/product-microservices/Dockerfile
+    container_name: product-microservices
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-server:
+        condition: service_healthy
+      Postgresql:
+        condition: service_started
+    ports:
+      - "${PRODUCT_MICROSERVICES_PORT}:8092"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:${POSTGRESQL_DB_PORT}/${PRODUCT_DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${POSTGRESQL_DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRESQL_DB_PASSWORD}
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:${CONFIG_SERVER_PORT}
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-server:${EUREKA_SERVER_PORT}/eureka/
+    networks:
+      - microservices
 volumes:
   mongo_data:
+  postgres:
 
 networks:
   microservices:
     driver: bridge
+
