@@ -15,11 +15,18 @@
         <module name="common-exceptions" />
         <module name="product.microservices" />
         <module name="customer-microservices" />
+        <module name="cart-microservices" />
+      </profile>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="cart-microservices" options="-parameters" />
       <module name="common-exceptions" options="-parameters" />
       <module name="config-server" options="-parameters" />
       <module name="customer-microservices" options="-parameters" />

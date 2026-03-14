@@ -18,6 +18,7 @@
         <module>customer-microservices</module>
         <module>common-exceptions</module>
         <module>product-microservices</module>
+        <module>cart-microservices</module>
     </modules>
     <properties>
         <java.version>25</java.version>
