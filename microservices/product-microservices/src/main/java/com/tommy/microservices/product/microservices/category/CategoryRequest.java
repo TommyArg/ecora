@@ -7,9 +7,8 @@ import java.util.List;
 
 public record CategoryRequest(
         Integer id,
-        @NotBlank(message = "Nombre requerido")
+        @NotBlank(message = "Nombre de categoría requerido")
         String nombre,
-        String descripcion,
-        List<ProductResponse> products
+        String descripcion
         ) {
 }
