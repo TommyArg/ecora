@@ -45,7 +45,7 @@ public class CartItemService {
                 .anyMatch(item -> item.getProductId().equals(cartItemRequest.productId()));
 
         if (productExists) {
-            throw new CartException("Product whit id " + cartItemRequest.productId() + " is already in the cart");
+            throw new CartException("Producto con el id " + cartItemRequest.productId() + " ya está en el carrito.");
         }
 
         cart.getItems().add(
@@ -63,15 +63,15 @@ public class CartItemService {
     public void updateItemFromCart(String customerId, CartItemRequest cartItemRequest) {
 
         Cart cart = cartRepository.findByCustomerId(customerId)
-                .orElseThrow(() -> new CartException("Cart for customer with id " + customerId + " does not exist"));
+                .orElseThrow(() -> new CartException("Carrito para el cliente " + customerId + " no existe"));
 
         CartItem itemToUpdate = cart.getItems().stream()
                 .filter(item -> item.getProductId()== cartItemRequest.productId())
                 .findFirst()
-                .orElseThrow(() -> new CartException("Product with id " + cartItemRequest.productId() + " is not in the cart"));
+                .orElseThrow(() -> new CartException("Producto con Id " + cartItemRequest.productId() + " no está en el carrito"));
 
         if (productClient.getProductById(cartItemRequest.productId()).get().stock() < cartItemRequest.quantity()) {
-            throw new CartException("Product whit id " + cartItemRequest.productId() + " does not have enough stock");
+            throw new CartException("Producto con id " + cartItemRequest.productId() + " no tiene suficiente stock.");
         }
 
         itemToUpdate.setQuantity(cartItemRequest.quantity());
@@ -81,12 +81,12 @@ public class CartItemService {
 
     public void removeItemFromCart(String customerId, Integer productId) {
         Cart cart = cartRepository.findByCustomerId(customerId)
-                .orElseThrow(() -> new CartException("Cart for customer with id " + customerId + " does not exist"));
+                .orElseThrow(() -> new CartException("Carrito para el cliente " + customerId + " no existe."));
 
         CartItem itemToRemove = cart.getItems().stream()
                 .filter(item -> item.getProductId()== productId)
                 .findFirst()
-                .orElseThrow(() -> new CartException("Product with id " + productId + " is not in the cart"));
+                .orElseThrow(() -> new CartException("Producto con el id " + productId + " no está en el carrito."));
 
         cart.getItems().remove(itemToRemove);
         cartRepository.save(cart);
