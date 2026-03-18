@@ -15,14 +15,14 @@ public class CartService {
     public CartResponse getCartByCustomerId(String customerId) {
 
         Cart cart = cartRepository.findByCustomerId(customerId)
-                .orElseThrow(() -> new CartException("Cart for customer with id " + customerId + " does not exist"));
+                .orElseThrow(() -> new CartException("Carrito para el cliente de ID " + customerId + " no existe."));
 
         return cartMapper.toCartResponse(cart);
     }
 
     public void clearCart(String customerId) {
         Cart cart = cartRepository.findByCustomerId(customerId)
-                .orElseThrow(() -> new CartException("Cart for customer with id " + customerId + " does not exist"));
+                .orElseThrow(() -> new CartException("Carrito para el cliente de ID " + customerId + " no existe."));
 
         cartRepository.delete(cart);
 

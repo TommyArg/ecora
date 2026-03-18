@@ -2,10 +2,13 @@ package com.tommy.microservices.cart_microservices.cart;
 
 import com.tommy.microservices.cart_microservices.cartItem.CartItem;
 import com.tommy.microservices.cart_microservices.cartItem.CartItemResponse;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Service
 public class CartMapper {
 
     public CartResponse toCartResponse(Cart cart) {
@@ -23,3 +26,5 @@ public class CartMapper {
     }
 
 }
+
+

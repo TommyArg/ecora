@@ -19,6 +19,18 @@ public class CartItemController {
 
     }
 
+    @PutMapping()
+    public ResponseEntity<String> updateItemFromCart(@PathVariable("customerId") String customerId, @Valid @RequestBody CartItemRequest cartItemRequest) {
+        cartItemService.updateItemFromCart(customerId, cartItemRequest);
+        return ResponseEntity.accepted().build();
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Void> removeItemFromCart(@PathVariable("customerId") String customerId, @PathVariable("productId") Integer productId) {
+    cartItemService.removeItemFromCart(customerId, productId);
+    return ResponseEntity.accepted().build();
+    }
+
 
 }
 

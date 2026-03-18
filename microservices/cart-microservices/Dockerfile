@@ -11,5 +11,5 @@ FROM eclipse-temurin:25-jre-alpine
 RUN apk add --no-cache curl bash
 WORKDIR /app
 COPY --from=build /app/microservices/cart-microservices/target/*.jar app.jar
-EXPOSE 8092
+EXPOSE 8093
 ENTRYPOINT ["java", "-jar", "app.jar"]
