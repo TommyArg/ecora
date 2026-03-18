@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record CartItemRequest(
         @NotNull(message="El id/producto es inválido")
-        String productId,
+        Integer productId,
         @Min(value=1, message="Se requiere de mínimo 1 producto")
         Integer quantity
 ) {}

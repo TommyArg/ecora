@@ -34,7 +34,7 @@ public class CartItemService {
             throw new CartException("Producto con el id " + cartItemRequest.productId() + " no tiene suficiente stock---");
         }
 
-        Cart cart = cartRepository.findByCustomerId(customerResponse.id())
+        Cart cart = cartRepository.findByCustomerId(customerResponse.dni())
                 .orElse(Cart.builder()
                         .customerId(customerId)
                         .items(new ArrayList<>())

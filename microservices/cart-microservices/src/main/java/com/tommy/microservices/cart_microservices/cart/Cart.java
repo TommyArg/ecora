@@ -18,6 +18,6 @@ public class Cart {
     @Id
     private String Id;
     private String customerId;
-    private List<CartItem> Items;
+    private List<CartItem> items;
 
 }
