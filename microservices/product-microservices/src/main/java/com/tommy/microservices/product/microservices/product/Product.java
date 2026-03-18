@@ -24,4 +24,10 @@ public class Product {
     @JoinColumn(name = "categoria_id")
     private Category categoria;
 
+    @PrePersist
+    public void prePersist() {
+        if (stock == null) {
+            stock = 0;
+        }
+    }
 }
