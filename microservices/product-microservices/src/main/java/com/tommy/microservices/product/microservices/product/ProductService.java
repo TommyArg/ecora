@@ -24,7 +24,7 @@ public class ProductService {
 
     public ProductResponse getProductById(Integer id) {
         if (id == null) {
-            throw new ProductException("Product ID cannot be null");
+            throw new ProductException("Id de producto no puede estar vacío");
         }
         return repository.findById(id)
                 .map(mapper::toProductResponse)
@@ -33,7 +33,7 @@ public class ProductService {
 
     public List<ProductResponse> getProductsByCategoryId(Integer id) {
         if (id == null) {
-            throw new ProductException("Category ID cannot be null");
+            throw new ProductException("Id de categoria no puede estar vacío.");
         }
         return repository.findAll().stream()
                 .filter(product -> product.getCategoria().getId().equals(id))
@@ -44,15 +44,15 @@ public class ProductService {
 
     public Integer updateProduct(ProductRequest request) {
         if (request.id() == null) {
-            throw new ProductException("Product ID cannot be null");
+            throw new ProductException("Id de producto no puede ser nulo.");
         }
 
         if (categoryService.getCategoryById(request.categoryId()) == null) {
-            throw new ProductException("Category with ID %s not found".formatted(request.categoryId()));
+            throw new ProductException("Categoria con id %s no encontrada.".formatted(request.categoryId()));
         }
 
         Product existingProduct = repository.findById(request.id())
-                .orElseThrow(() -> new ProductException("Product with ID %s not found".formatted(request.id())));
+                .orElseThrow(() -> new ProductException("Producto con id %s no encontrado.".formatted(request.id())));
 
         Product updatedProduct = mapper.toProduct(request);
 
@@ -64,10 +64,10 @@ public class ProductService {
 
     public void deleteProduct(Integer id) {
         if (id == null) {
-            throw new ProductException("Product ID cannot be null");
+            throw new ProductException("Id de producto no puede ser nulo.");
         }
         if (!repository.existsById(id)) {
-            throw new ProductException("Product with ID %s not found".formatted(id));
+            throw new ProductException("Producto con el id %s no encontrado".formatted(id));
         }
         repository.deleteById(id);
     }
@@ -75,7 +75,7 @@ public class ProductService {
     public Integer createProduct(ProductRequest product) {
 
         if (categoryService.getCategoryById(product.categoryId()) == null) {
-            throw new ProductException("Category with ID %s not found".formatted(product.categoryId()));
+            throw new ProductException("Categoria con id %s no encontrada.".formatted(product.categoryId()));
         }
 
         Product newProduct = mapper.toProduct(product);
@@ -88,14 +88,14 @@ public class ProductService {
         for (ProductQuantityRequest item : request) {
 
             Product product = repository.findById(item.productId())
-                    .orElseThrow(() -> new ProductException("Product with ID %s not found".formatted(item.productId())));
+                    .orElseThrow(() -> new ProductException("Producto con id %s no encontrado.".formatted(item.productId())));
 
             if (item.quantity() < 0) {
-                throw new ProductException("Restock quantity cannot be negative for product ID %s".formatted(item.productId()));
+                throw new ProductException("Cantidad de restock no puede ser negativa para producto de id %s".formatted(item.productId()));
             }
 
             if (product.getStock() < item.quantity()) {
-                throw new ProductException("Insufficient stock for product ID %s".formatted(item.productId()));
+                throw new ProductException("Stock insuficiente para producto id %s".formatted(item.productId()));
             }
 
             product.setStock(product.getStock() - item.quantity());
@@ -107,10 +107,10 @@ public class ProductService {
     public void restockProduct(List<ProductQuantityRequest> request) {
         for (ProductQuantityRequest item : request) {
             Product product = repository.findById(item.productId())
-                    .orElseThrow(() -> new ProductException("Product with ID %s not found".formatted(item.productId())));
+                    .orElseThrow(() -> new ProductException("Producto con id %s no encontrado".formatted(item.productId())));
 
             if (item.quantity() < 0) {
-                throw new ProductException("Restock quantity cannot be negative for product ID %s".formatted(item.productId()));
+                throw new ProductException("Cantidad de restock no puede ser negativa para producto de id %s".formatted(item.productId()));
             }
 
             product.setStock(product.getStock() + item.quantity());
