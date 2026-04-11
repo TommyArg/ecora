@@ -9,7 +9,8 @@
     </parent>
 
     <groupId>com.tommy</groupId>
-    <artifactId>ecora</artifactId> <version>0.0.1-SNAPSHOT</version>
+    <artifactId>ecora</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <name>ecora</name>
     <description></description>
     <packaging>pom</packaging>
@@ -18,6 +19,7 @@
         <module>config-server</module>
         <module>discovery-server</module>
         <module>microservices</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>
